@@ -1,6 +1,6 @@
 import Foundation
 
-protocol FlyweightFactory {
+public protocol FlyweightFactory {
     associatedtype K: Hashable
     associatedtype V
 
@@ -11,13 +11,13 @@ protocol FlyweightFactory {
     static func destroy(with identifier: K)
 }
 
-extension FlyweightFactory {
+public extension FlyweightFactory {
 
-    public static func instance(for identifier: K) -> V? {
+    static func instance(for identifier: K) -> V? {
         Self.instances[identifier]
     }
 
-    public static func instance(for identifier: K, initializer: Initializer) -> V {
+    static func instance(for identifier: K, initializer: Initializer) -> V {
         Self.instances[identifier] ?? {
             let instance = initializer()
             Self.instances[identifier] = instance
@@ -25,7 +25,7 @@ extension FlyweightFactory {
         }()
     }
 
-    public static func destroy(with identifier: K) {
+    static func destroy(with identifier: K) {
         Self.instances.removeValue(forKey: identifier)
     }
 }
